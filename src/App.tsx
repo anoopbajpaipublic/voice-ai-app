@@ -19,7 +19,7 @@ function App() {
           margin: '0 auto',
           padding: '20px'
         }}>
-          <h1 style={{ textAlign: 'center' }}>Voice-Controlled App</h1>
+          <h1 style={{ textAlign: 'center' }}>Voice-Controlled User Interface & Navigations</h1>
 
           <NavTabs />
           <VoiceAssistant />
