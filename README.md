@@ -81,11 +81,17 @@ HTTPS or localhost for mic permissions
 
 voice-ai-app/
 ├── src/
+
 │   ├── context/VoiceContext.tsx  # Main voice handling logic
+
 │   ├── services/aiService.ts     # OpenAI integration
+
 │   └── components/...
-├── .env
+
+├── .env.local
+
 ├── package.json
+
 └── README.md
 
 🛠 Available Scripts
