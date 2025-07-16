@@ -1,44 +1,100 @@
 AI-powered React app with voice-based navigation and form submission using OpenAI and the Web Speech API.
 
-## Available Scripts
+# 🎙️ Voice AI App
 
-In the project directory, you can run:
+This is a React-based AI assistant that allows users to navigate pages, fill forms, and submit them — all using **voice commands**. It uses the **Web Speech API** for voice input and integrates with **OpenAI** to interpret natural language commands.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## ✨ Features
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+-  Voice-driven page navigation (e.g., "Go to contact page")
+-  Voice form filling (e.g., "Set name to John Doe")
+-  Voice-based form submission (e.g., "Submit the form")
+-  OpenAI-powered command understanding
+-  Built with React + React Router
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+##  How It Works
 
-### `npm run build`
+- The app listens to voice input using the browser's **SpeechRecognition**.
+- It sends the transcript to OpenAI for intent detection.
+- Based on OpenAI's response, the app:
+  - Navigates to a page
+  - Fills a form field
+  - Submits the form
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+##  Tech Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- React + TypeScript
+- React Router
+- OpenAI (GPT) for command parsing
+- Web Speech API (SpeechRecognition)
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🚀 Setup Instructions
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 1. Clone and install dependencies
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+bash
+git clone <your-repo-url> voice-ai-app
+cd voice-ai-app
+npm install
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+2. Add OpenAI API Key
+Create a .env.local file in the root:
 
-## Learn More
+.env.local
+ 
+REACT_APP_OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxx
+Make sure you have access to OpenAI’s GPT model for command interpretation.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Start the app
+bash
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+npm start
+
+Open http://localhost:3000 in your browser.
+
+🧪 Example Voice Commands
+Command Example	Action
+"Go to contact page"	Navigates to contact screen
+"Set name to Jane Doe"	Fills name field
+"My email is jane@example.com"	Fills email field
+"Set phone to 1234567890"	Fills phone field
+"Submit the form"	Triggers form submission
+
+
+⚠️ Requirements
+Chrome or Edge browser (for Web Speech API)
+
+Microphone access
+
+HTTPS or localhost for mic permissions
+
+
+📂 Project Structure (Simplified)
+
+voice-ai-app/
+├── src/
+│   ├── context/VoiceContext.tsx  # Main voice handling logic
+│   ├── services/aiService.ts     # OpenAI integration
+│   └── components/...
+├── .env
+├── package.json
+└── README.md
+
+🛠 Available Scripts
+bash
+
+npm start      # Run the app locally
+npm run build  # Production build
+npm test       # Run tests
+
+📖 License
+MIT license.
+
