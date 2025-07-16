@@ -1,6 +1,4 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+AI-powered React app with voice-based navigation and form submission using OpenAI and the Web Speech API.
 
 ## Available Scripts
 
