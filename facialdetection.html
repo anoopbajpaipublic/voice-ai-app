@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Face & Blink Detection</title>
+  <style>
+    video, canvas { position: absolute; top: 0; left: 0; }
+    #statusBox {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 1.5em;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+  <div id="statusBox">Waiting for face...</div>
+  <video id="webcam" autoplay playsinline width="640" height="480"></video>
+  <canvas id="canvas" width="640" height="480"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/facemesh"></script>
+
+  <script>
+    const video = document.getElementById('webcam');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const statusBox = document.getElementById('statusBox');
+
+    let model;
+    let blinked = false;
+
+    async function setupCamera() {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+      return new Promise((resolve) => {
+        video.onloadedmetadata = () => resolve(video);
+      });
+    }
+
+    async function detect() {
+      const predictions = await model.estimateFaces({input: video});
+
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      if (predictions.length > 0) {
+        statusBox.innerText = blinked ? "You blinked!" : "Face detected";
+
+        predictions.forEach(pred => {
+          ctx.beginPath();
+          ctx.arc(pred.annotations.leftEyeUpper0[3][0], pred.annotations.leftEyeUpper0[3][1], 5, 0, 2 * Math.PI);
+          ctx.arc(pred.annotations.rightEyeUpper0[3][0], pred.annotations.rightEyeUpper0[3][1], 5, 0, 2 * Math.PI);
+          ctx.strokeStyle = "lime";
+          ctx.stroke();
+        });
+
+        detectBlink(predictions[0]);
+      } else {
+        statusBox.innerText = "No face detected";
+      }
+
+      requestAnimationFrame(detect);
+    }
+
+    function detectBlink(pred) {
+      const leftTop = pred.annotations.leftEyeUpper0[3];
+      const leftBottom = pred.annotations.leftEyeLower0[3];
+      const rightTop = pred.annotations.rightEyeUpper0[3];
+      const rightBottom = pred.annotations.rightEyeLower0[3];
+
+      const leftEAR = Math.abs(leftTop[1] - leftBottom[1]);
+      const rightEAR = Math.abs(rightTop[1] - rightBottom[1]);
+
+      if (leftEAR < 5 && rightEAR < 5) {
+        blinked = true;
+      } else {
+        blinked = false;
+      }
+    }
+
+    async function main() {
+      await setupCamera();
+      video.play();
+      model = await facemesh.load();
+      detect();
+    }
+
+    main();
+  </script>
+</body>
+</html>
